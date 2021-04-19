@@ -1,6 +1,9 @@
 package app.domain;
 
-import lombok.*;
+import com.mongodb.lang.NonNull;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 @NoArgsConstructor

@@ -6,6 +6,7 @@ import app.services.MovieService;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 import java.net.URI;
@@ -22,6 +23,11 @@ public class MovieController {
     @GetMapping("/movies/{id}")
     public Mono<Movie> getMovieDetails(@PathVariable String id) {
             return movieService.findById(UUID.fromString(id));
+    }
+
+    @GetMapping("/movies")
+    public Flux<Movie> getMovieAll() {
+        return movieService.finalAll();
     }
 
     @PostMapping("/movies")
