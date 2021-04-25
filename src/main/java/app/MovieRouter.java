@@ -8,8 +8,7 @@ import org.springframework.web.reactive.function.server.RouterFunctions;
 import org.springframework.web.reactive.function.server.ServerResponse;
 
 import static org.springframework.http.MediaType.APPLICATION_JSON;
-import static org.springframework.web.reactive.function.server.RequestPredicates.GET;
-import static org.springframework.web.reactive.function.server.RequestPredicates.accept;
+import static org.springframework.web.reactive.function.server.RequestPredicates.*;
 
 
 @Configuration
@@ -19,6 +18,7 @@ public class MovieRouter {
     public RouterFunction<ServerResponse> route(MovieHandler movieHandler) {
         return RouterFunctions.route(GET("/movies/{id}").and(accept(APPLICATION_JSON)), movieHandler::get)
                 .andRoute(GET("/movies").and(accept(APPLICATION_JSON)), movieHandler::all)
-                .andRoute(GET("/movies/title/{title}").and(accept(APPLICATION_JSON)), movieHandler::title);
+                .andRoute(GET("/movies/title/{title}").and(accept(APPLICATION_JSON)), movieHandler::title)
+        .andRoute(POST("/movies").and(accept(APPLICATION_JSON)), movieHandler::post);
     }
 }

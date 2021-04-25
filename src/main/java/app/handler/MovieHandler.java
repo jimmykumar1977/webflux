@@ -1,6 +1,7 @@
 package app.handler;
 
 import app.domain.Movie;
+import app.dto.MovieDTO;
 import app.services.MovieService;
 import org.springframework.stereotype.Component;
 import org.springframework.web.reactive.function.server.ServerRequest;
@@ -35,6 +36,12 @@ public class MovieHandler {
                 .flatMap(result -> ServerResponse.ok().contentType(APPLICATION_JSON).bodyValue(result))
                 .switchIfEmpty( ServerResponse.notFound().build() )
                 .onErrorResume(error -> ServerResponse.badRequest().bodyValue(error.getMessage()) );
+    }
+
+    public Mono<ServerResponse> post(ServerRequest request) {
+        return request.bodyToMono(MovieDTO.class)
+                .flatMap(movieService::save)
+                .flatMap(result -> ServerResponse.ok().contentType(APPLICATION_JSON).bodyValue(result));
     }
 
     public Mono<ServerResponse> all(ServerRequest request) {

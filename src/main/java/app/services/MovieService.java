@@ -1,6 +1,7 @@
 package app.services;
 
 import app.domain.Movie;
+import app.dto.MovieDTO;
 import app.repositories.MovieRepository;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Flux;
@@ -16,8 +17,17 @@ public class MovieService {
         this.movieRepository = movieRepository;
     }
 
-    public Mono<Movie> save(Movie movie){
-        return movieRepository.save(movie);
+    public Mono<Movie> save(MovieDTO movie){
+      return movieRepository.findByTitle(movie.getTitle())
+               .switchIfEmpty(Mono.just(new Movie(movie.getTitle(),movie.getYear())))
+              .flatMap(m-> {
+                  if (m.getId() == null) {
+                      m.setId(UUID.randomUUID().toString());
+                      return  movieRepository.save(m);
+                  } else {
+                      return Mono.just(m);
+                  }
+              });
     }
 
     public Mono<Movie> findById(UUID id){
