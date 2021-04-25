@@ -24,6 +24,10 @@ public class MovieService {
         return movieRepository.findById(id.toString());
     }
 
+    public Mono<Movie> findByTitle(String title){
+        return movieRepository.findByTitle(title);
+    }
+
     public Flux<Movie> finalAll() {
         return movieRepository.findAll();
     }

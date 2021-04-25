@@ -18,7 +18,7 @@ public class MovieRouter {
     @Bean
     public RouterFunction<ServerResponse> route(MovieHandler movieHandler) {
         return RouterFunctions.route(GET("/movies/{id}").and(accept(APPLICATION_JSON)), movieHandler::get)
-                .andRoute(GET("/movies").and(accept(APPLICATION_JSON)), movieHandler::all);
-
+                .andRoute(GET("/movies").and(accept(APPLICATION_JSON)), movieHandler::all)
+                .andRoute(GET("/movies/title/{title}").and(accept(APPLICATION_JSON)), movieHandler::title);
     }
 }
